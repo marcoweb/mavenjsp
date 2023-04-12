@@ -8,6 +8,8 @@ public class LivroRepository {
     private Hashtable<Integer, Livro> livros = new Hashtable<Integer,Livro>();
 
     public int save(Livro livro) {
+        if(livro.getId() == 0)
+            livro.setId(livros.size() + 1);
         this.livros.put(livro.getId(), livro);
         return livro.getId();
     }

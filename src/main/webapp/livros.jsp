@@ -4,12 +4,14 @@
 <%@ page import="colecao.Livro" %>
 <%
     LivroRepository repository = LivroRepository.getInstance();
-    Livro livro = new Livro();
-    livro.setId(10);
-    livro.setTitulo("Teste");
-    repository.save(livro);
 
-    request.setAttribute("livros", repository.fetchAll());
+    if(request.getMethod().equals("POST")) {
+        Livro livro = new Livro();
+        livro.setTitulo(request.getParameter("titulo"));
+        repository.save(livro);
+    }
+
+    session.setAttribute("livros", repository.fetchAll());
 %>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -18,11 +20,12 @@
         <title>Document</title>
     </head>
     <body>
-        <h1>Olá Maven!!!</h1>
-        <c:forEach var="num" begin="0" end="10">
-            ${num} <br />
-        </c:forEach>
-
+        <form action="livros.jsp" method="post">
+            <label for="titulo">Título:</label>
+            <input name="titulo" />
+            <button type="submit">Salvar</button>
+        </form>
+        <hr />
         <table>
             <tr>
                 <td>Id</td>
